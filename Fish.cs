@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CA221003
+﻿namespace CA221003
 {
     internal class Fish
     {
@@ -37,22 +31,48 @@ namespace CA221003
         public bool Predator 
         {
             get => _predator;
-            set => _predator = value;
+            private set => _predator = value;
         }
         public int SwimTop
         { 
             get => _swimTop;
-            set => _swimTop = value;
+            set
+            {
+                if (value > 400)
+                    throw new Exception("a hal legmagasabb mélysége nem lehet 400nál nagyobb");
+                if (value < 0)
+                    throw new Exception("a halak nem tudnak repülni - legalábbis ezek");
+                _swimTop = value;
+            }
         }
         public int SwimDepth 
         { 
             get => _swimDepth;
-            set => _swimDepth = value;
+            set
+            {
+                if (value < 10)
+                    throw new Exception("a halnak ennél nagyobb élettérre van szüksége");
+                if (value > 400)
+                    throw new Exception("a hal mozgási sávja nem lehet szélesebb 400m-nél");
+                _swimDepth = value;
+            }
         }
+        public int SwimBottom => SwimTop + SwimDepth;
+
         public string Species 
         { 
             get => _species;
-            set => _species = value;
+            set
+            {
+                if (value is null)
+                    throw new Exception("a hal fajtája nem lehet null");
+                if (value.Length < 3)
+                    throw new Exception("a halfajta megnevezése legalább 3 karakter kell, hogy legyen");
+                if (value.Length > 30)
+                    throw new Exception("a halfajta megnevezése maximum 30 karakter kell, hogy legyen");
+                _species = value;
+            }
+            
         }
 
         public Fish(float weight, bool predator, int swimTop, int swimDepth, string species)
